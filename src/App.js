@@ -1,5 +1,5 @@
 import "./App.css";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Particles from "react-tsparticles";
 import Navigation from "./components/Navigation/Navaigation.jsx";
 import Logo from "./components/Logo/Logo.jsx";
@@ -71,7 +71,7 @@ const partivleOps = {
 
 function App() {
   const [input, setInput] = useState("");
-  const [image, setImage] = useState("");
+  const [imageUrl, setImageUrl] = useState("");
   const [box, setBox] = useState({});
 
   const calcFaceLoc = (data) => {
@@ -83,7 +83,7 @@ function App() {
       left: regions.left_col * width,
       top: regions.top_row * height,
       right: width - (regions.right_col * width),
-      bottom: height - (regions.bottom_row * height),
+      bottom: height - (regions.bottom_row * height)
     };
     console.log(newBox);
     setBox({ box: newBox });
@@ -94,7 +94,7 @@ function App() {
   };
 
   const onSubmit = () => {
-    setImage(input);
+    setImageUrl(input);
     app.models
       .predict(
         { id: "f76196b43bbd45c99b4f3cd8e8b40a8a", version: "45fb9a671625463fa646c3523a3087d5" },
@@ -111,7 +111,7 @@ function App() {
       <Logo />
       <Rank />
       <ImageLinkForm onInputChange={onInputChange} onSubmit={onSubmit} />
-      <FaceRecognition box={box} image={image} />
+      <FaceRecognition box={box} image={imageUrl} />
     </div>
   );
 }
