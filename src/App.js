@@ -80,13 +80,13 @@ function App() {
     const width = Number(image.width);
     const height = Number(image.height);
     const newBox = {
-      left: regions.left_col * width,
       top: regions.top_row * height,
       right: width - (regions.right_col * width),
-      bottom: height - (regions.bottom_row * height)
+      bottom: height - (regions.bottom_row * height),
+      left: regions.left_col * width,
     };
     console.log(newBox);
-    setBox({ box: newBox });
+    setBox({...newBox });
   };
 
   const onInputChange = (e) => {
