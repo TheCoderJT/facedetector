@@ -1,10 +1,14 @@
-.App{
+.App {
   text-align: center;
 }
 
-.center{
-  display:flex;
-  justify-content:center;
+.center {
+  display: flex;
+  justify-content: center;
+}
+
+.txtCenter{
+  margin: 0 auto;
 }
 
 .particles {
