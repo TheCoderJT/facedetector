@@ -1,5 +1,5 @@
 import './App.css';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Particles from 'react-tsparticles';
 import Navigation from './components/Navigation/Navaigation.jsx';
 import Logo from './components/Logo/Logo.jsx';
@@ -77,6 +77,13 @@ function App() {
   const [box, setBox] = useState({});
   const [route, setRoute] = useState('signin');
   const [isSignedIn, setIsSignedIn] = useState(false);
+  const [user, setUser] = useState({
+    id: '',
+    name: '',
+    email: '',
+    entries: 0,
+    joined: '',
+  });
 
   const calcFaceLoc = (data) => {
     const regions = data.outputs[0].data.regions[0].region_info.bounding_box;
@@ -96,6 +103,16 @@ function App() {
     setInput(e.target.value);
   };
 
+  const loadUser = (data) => {
+    setUser({
+      id: data.id,
+      name: data.name,
+      email: data.email,
+      entries: data.entries,
+      joined: data.joined,
+    });
+  };
+
   const onSubmit = () => {
     setImageUrl(input);
     app.models
@@ -106,7 +123,23 @@ function App() {
         },
         input
       )
-      .then((response) => calcFaceLoc(response))
+      .then((response) => {
+        if (response) {
+          fetch('http://localhost:3001/image', {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              id: user.id,
+            }),
+          })
+            .then((response) => response.json())
+            .then((count) => {
+              // setUser(Object.assign(user, { entries: count })); // Doesn't update count when image gets detected.
+              Object.assign(user, { entries: count });
+            });
+        }
+        calcFaceLoc(response);
+      })
       .catch((err) => console.log(err));
   };
 
@@ -126,14 +159,14 @@ function App() {
       {route === 'home' ? (
         <div>
           <Logo />
-          <Rank />
+          <Rank name={user.name} rank={user.entries} />
           <ImageLinkForm onInputChange={onInputChange} onSubmit={onSubmit} />
           <FaceRecognition box={box} image={imageUrl} />
         </div>
       ) : route === 'signin' ? (
-        <SignIn onRouteChange={onRouteChange} />
+        <SignIn loadUser={loadUser} onRouteChange={onRouteChange} />
       ) : (
-        <Register onRouteChange={onRouteChange} />
+        <Register loadUser={loadUser} onRouteChange={onRouteChange} />
       )}
     </div>
   );
