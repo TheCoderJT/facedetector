@@ -134,8 +134,11 @@ function App() {
           })
             .then((response) => response.json())
             .then((count) => {
-              // setUser(Object.assign(user, { entries: count })); // Doesn't update count when image gets detected.
+              //! for both statements below the count doesn't update immediatly
+              //! it only updates once the url is deleted in the input which is odd...
+              // setUser(Object.assign(user, { entries: count }));
               Object.assign(user, { entries: count });
+              console.log(count);
             });
         }
         calcFaceLoc(response);

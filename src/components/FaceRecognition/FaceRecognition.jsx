@@ -1,10 +1,10 @@
-import React from "react";
-import "./facerecognition.css";
+import React from 'react';
+import './facerecognition.css';
 
-const FaceRecognition = ({image, box}) => {
+const FaceRecognition = ({ image, box }) => {
   return (
     <div className="flex justify-center ma">
-      <div className="absolute mt4">
+      <div className="absolute ma4">
         <img id="inputimage" src={image} alt="" width="500px" height="auto" />
         <div
           className="bounding-box"
