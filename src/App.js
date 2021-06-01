@@ -71,6 +71,21 @@ const partivleOps = {
   detectRetina: true,
 };
 
+const initialState = {
+  input: '',
+  imageUrl: '',
+  box: {},
+  route: 'signin',
+  isSignedIn: false,
+  user: {
+    id: '',
+    name: '',
+    email: '',
+    entries: '',
+    joined: '',
+  },
+};
+
 function App() {
   const [input, setInput] = useState('');
   const [imageUrl, setImageUrl] = useState('');
@@ -113,7 +128,7 @@ function App() {
     });
   };
 
-  const onSubmit = () => {
+  const onSubmit = (e) => {
     setImageUrl(input);
     app.models
       .predict(
@@ -134,16 +149,17 @@ function App() {
           })
             .then((response) => response.json())
             .then((count) => {
-              //! for both statements below the count doesn't update immediatly
-              //! it only updates once the url is deleted in the input which is odd...
-              // setUser(Object.assign(user, { entries: count }));
               Object.assign(user, { entries: count });
               console.log(count);
-            });
+            })
+            .catch(console.log);
         }
         calcFaceLoc(response);
       })
       .catch((err) => console.log(err));
+    setTimeout(() => {
+      setInput('');
+    }, 1000);
   };
 
   const onRouteChange = (route) => {
@@ -151,6 +167,7 @@ function App() {
       setIsSignedIn(false);
     } else if (route === 'home') {
       setIsSignedIn(true);
+      setImageUrl('');
     }
     setRoute(route);
   };
