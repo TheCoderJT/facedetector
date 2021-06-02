@@ -71,21 +71,6 @@ const partivleOps = {
   detectRetina: true,
 };
 
-const initialState = {
-  input: '',
-  imageUrl: '',
-  box: {},
-  route: 'signin',
-  isSignedIn: false,
-  user: {
-    id: '',
-    name: '',
-    email: '',
-    entries: '',
-    joined: '',
-  },
-};
-
 function App() {
   const [input, setInput] = useState('');
   const [imageUrl, setImageUrl] = useState('');
@@ -130,14 +115,14 @@ function App() {
 
   const onSubmit = (e) => {
     setImageUrl(input);
-    app.models
-      .predict(
-        {
-          id: 'f76196b43bbd45c99b4f3cd8e8b40a8a',
-          version: '45fb9a671625463fa646c3523a3087d5',
-        },
-        input
-      )
+    fetch('http://localhost:3001/imageurl', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        input: input,
+      }),
+    })
+      .then((responce) => responce.json())
       .then((response) => {
         if (response) {
           fetch('http://localhost:3001/image', {
