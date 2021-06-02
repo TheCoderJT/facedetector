@@ -9,9 +9,6 @@ import FaceRecognition from './components/FaceRecognition/FaceRecognition.jsx';
 import SignIn from './components/SignIn/SignIn.jsx';
 import Register from './components/Register/Register.jsx';
 
-import Clarifai from 'clarifai';
-const app = new Clarifai.App({ apiKey: '71eebfe74aa547e2aa165bdb27f8c32c' });
-
 const partivleOps = {
   fpsLimit: 60,
   Interactivity: {
