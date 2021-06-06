@@ -112,7 +112,7 @@ function App() {
 
   const onSubmit = (e) => {
     setImageUrl(input);
-    fetch('http://localhost:3001/imageurl', {
+    fetch('https://powerful-gorge-86680.herokuapp.com/imageurl', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -122,7 +122,7 @@ function App() {
       .then((responce) => responce.json())
       .then((response) => {
         if (response) {
-          fetch('http://localhost:3001/image', {
+          fetch('https://powerful-gorge-86680.herokuapp.com/image', {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
